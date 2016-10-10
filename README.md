@@ -16,4 +16,4 @@ A partir da descoberta dos agentes, o usuário poderá escolher o agente que des
 
 Além disso, a  visualização de objetos contadores deve o correr com a diminuição do  valor  atual  pelo  amostrado  anteriormente  e o  sistema  deve  ser implementado para mostrar  valores  corretos  mesmo  que  os  contadores  tenham  sido  zerados  por  terem alcançado seu limite máximo.
 
-Antes de  selecionar  o  agente  que  deseja monitorar,  as  seguintes  configurações devem ser realizadas (usando uma interface gráfica): definição do tempo de  periodicidade utilizado para capturar e atualizar as informações nos gráficos e limites inferior e superior para ca da um dos gráficos.
+Antes de  selecionar  o  agente  que  deseja monitorar,  as  seguintes  configurações devem ser realizadas (usando uma interface gráfica): definição do tempo de  periodicidade utilizado para capturar e atualizar as informações nos gráficos e limites inferior e superior para cada um dos gráficos.
