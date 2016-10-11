@@ -1,6 +1,8 @@
 package SNMP;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
@@ -32,55 +34,35 @@ public class SNMPManager {
         address = add;
     }
 
-    public static void main(String[] args) throws IOException {
-        /**
-         * Port 161 is used for Read and Other operations Port 162 is used for
-         * the trap generation
-         */
-        SNMPManager client = new SNMPManager("udp:127.0.0.1/161");
-        client.start();
-        /**
-         * OID - .1.3.6.1.2.1.1.1.0 => SysDec OID - .1.3.6.1.2.1.1.5.0 =>
-         * SysName => MIB explorer will be usefull here, as discussed in
-         * previous article
-         */
-        String sysDescr = client.getAsString(new OID(".1.3.6.1.2.1.1.1.0"));
-        System.out.println(sysDescr);
+    public String getSysDescr() {
+        try {
+            SNMPManager client = new SNMPManager("udp:127.0.0.1/161");
+            client.start();
+            String sysDescr = client.getAsString(new OID(".1.3.6.1.2.1.1.1.0"));
+            return sysDescr;
+        } catch (IOException ex) {
+            return ex.getMessage();
+        }
     }
 
-    /**
-     * Start the Snmp session. If you forget the listen() method you will not
-     * get any answers because the communication is asynchronous and the
-     * listen() method listens for answers.
-     *
-     * @throws IOException
-     */
+
     private void start() throws IOException {
         TransportMapping transport = new DefaultUdpTransportMapping();
         snmp = new Snmp(transport);
-// Do not forget this line!
         transport.listen();
     }
 
-    /**
+    /*
      * Method which takes a single OID and returns the response from the agent
      * as a String.
-     *
-     * @param oid
-     * @return
-     * @throws IOException
      */
     public String getAsString(OID oid) throws IOException {
         ResponseEvent event = get(new OID[]{oid});
         return event.getResponse().get(0).getVariable().toString();
     }
 
-    /**
+    /*
      * This method is capable of handling multiple OIDs
-     *
-     * @param oids
-     * @return
-     * @throws IOException
      */
     public ResponseEvent get(OID oids[]) throws IOException {
         PDU pdu = new PDU();
@@ -95,11 +77,9 @@ public class SNMPManager {
         throw new RuntimeException("GET timed out");
     }
 
-    /**
+    /*
      * This method returns a Target, which contains information about where the
      * data should be fetched and how.
-     *
-     * @return
      */
     private Target getTarget() {
         Address targetAddress = GenericAddress.parse(address);
