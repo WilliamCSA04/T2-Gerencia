@@ -17,7 +17,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void addFoundValuesToTable() {
         SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
         String allDescriptions = snmp.getSysDescr();
-        table.setValueAt(allDescriptions, 0, 0);
+        table.setValueAt(allDescriptions, 0, 1);
+        System.out.println(allDescriptions);
     }
 
     /**
@@ -36,13 +37,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "IP", "Descrição"
             }
         ));
         jScrollPane1.setViewportView(table);
