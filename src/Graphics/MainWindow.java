@@ -1,5 +1,9 @@
 package Graphics;
 
+import SNMP.SNMPManager;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 public class MainWindow extends javax.swing.JFrame {
 
     /**
@@ -7,6 +11,13 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
+        addFoundValuesToTable();
+    }
+    
+    private void addFoundValuesToTable() {
+        SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
+        String allDescriptions = snmp.getSysDescr();
+        table.setValueAt(allDescriptions, 0, 0);
     }
 
     /**
@@ -19,11 +30,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -34,7 +45,7 @@ public class MainWindow extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,6 +104,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
+    
 }
