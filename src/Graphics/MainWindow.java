@@ -1,8 +1,6 @@
 package Graphics;
 
 import SNMP.SNMPManager;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 
 public class MainWindow extends javax.swing.JFrame {
 
