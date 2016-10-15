@@ -20,10 +20,16 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 public class Connection {
 
-    private Snmp snmp;
+    private static Snmp snmp;
 
-    public Connection() {
-        this.snmp = new Snmp(getDefaultTransportMapping());
+    public static void start() {
+        TransportMapping tm = getDefaultTransportMapping();
+        snmp = new Snmp(getDefaultTransportMapping());
+        try {
+            tm.listen();
+        } catch (IOException ex) {
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static TransportMapping getDefaultTransportMapping() {
@@ -44,20 +50,15 @@ public class Connection {
         return target;   
     }
     
-    public String get(){
+    public static String get(){
         SNMPManager snmpManager = new SNMPManager();
-        TransportMapping transport = getDefaultTransportMapping();
-        try {
-            transport.listen();
-        } catch (IOException ex) {
-            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        start();       
         CommunityTarget target = getConfiguredCommunityTarget(snmpManager);
         PDU pdu = createConfiguredPDU(snmpManager);
         return executeResponseEvent(pdu, target);
     }
     
-    private PDU createConfiguredPDU(SNMPManager snmp){
+    private static PDU createConfiguredPDU(SNMPManager snmp){
         PDU pdu = new PDU();
         VariableBinding vb = createVariableBindingWithOID(snmp.getOID());
         pdu.add(vb);
@@ -66,18 +67,18 @@ public class Connection {
         return pdu;
     }
     
-    private VariableBinding createVariableBindingWithOID(String OIDvalue){
+    private static VariableBinding createVariableBindingWithOID(String OIDvalue){
         OID oid = createOID(OIDvalue);
         return new VariableBinding(oid);
     }
     
-    private OID createOID(String OIDvalue){
+    private static OID createOID(String OIDvalue){
         return new OID(OIDvalue);
     }
     
-    private String executeResponseEvent(PDU pdu, CommunityTarget target){
+    private static String executeResponseEvent(PDU pdu, CommunityTarget target){
         try {
-            ResponseEvent response = this.snmp.get(pdu, target);
+            ResponseEvent response = snmp.get(pdu, target);
             if(response != null){
                 PDU pduResponse = response.getResponse();
                 if(pduResponse != null){
