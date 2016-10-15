@@ -54,8 +54,7 @@ public class Connection {
         }        
         CommunityTarget target = getConfiguredCommunityTarget(snmpManager);
         PDU pdu = createConfiguredPDU(snmpManager);
-        executeResponseEvent(pdu, target);
-        return "";
+        return executeResponseEvent(pdu, target);
     }
     
     private PDU createConfiguredPDU(SNMPManager snmp){
