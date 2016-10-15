@@ -1,6 +1,8 @@
 package Graphics;
 
 import SNMP.SNMPManager;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -11,13 +13,16 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         addFoundValuesToTable();
     }
-    
+
     private void addFoundValuesToTable() {
+        ipList.addItem("udp:127.0.0.1/161");
+        String descriptionForThisIp = getDescription();
+        descriptionArea.setText(descriptionForThisIp);
+    }
+    
+    private String getDescription(){
         SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
-        String allDescriptions = snmp.getSysDescr();
-        table.setValueAt(allDescriptions, 0, 1);
-        table.setValueAt("127.0.0.1", 0, 0);
-        System.out.println(allDescriptions);
+        return snmp.getSysDescr();
     }
 
     /**
@@ -29,54 +34,50 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
         testeButton = new javax.swing.JButton();
+        ipList = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        descriptionArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "IP", "Descrição"
-            }
-        ));
-        jScrollPane1.setViewportView(table);
-
-        testeButton.setText("teste");
+        testeButton.setText("monitorar");
         testeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testeButtonActionPerformed(evt);
             }
         });
 
+        ipList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
+
+        descriptionArea.setColumns(20);
+        descriptionArea.setRows(5);
+        jScrollPane1.setViewportView(descriptionArea);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(testeButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ipList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(testeButton)))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(testeButton)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ipList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(testeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,10 +123,10 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea descriptionArea;
+    private javax.swing.JComboBox<String> ipList;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable table;
     private javax.swing.JButton testeButton;
     // End of variables declaration//GEN-END:variables
 
-    
 }
