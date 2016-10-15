@@ -49,6 +49,11 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane1.setViewportView(table);
 
         testeButton.setText("teste");
+        testeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,6 +81,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void testeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testeButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testeButtonActionPerformed
 
     /**
      * @param args the command line arguments
