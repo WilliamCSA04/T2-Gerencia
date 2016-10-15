@@ -20,10 +20,22 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 public class SNMPManager {
     
-    private final String port ="/161";
-    private final String address = "127.0.0.";
-    private final int addressLowLimit = 1;
-    private final int addressTopLimit = 1;
-    private final String OID = ".1.3.6.1.2.1.1.1.0";
+    private String port;
+    private String address;
+    private int addressLowLimit;
+    private int addressTopLimit;
+    private String OID;
+    
+    public SNMPManager(String port, String address, int addressLowLimit, int addressTopLimit, String OID){
+        this.port=port;
+        this.address = address;
+        this.addressLowLimit = addressLowLimit;
+        this.addressTopLimit = addressTopLimit;
+        this.OID = OID;
+    }
+    
+    public SNMPManager(){
+        this("/161", "127.0.0.", 1, 1, ".1.3.6.1.2.1.1.1.0");
+    }
 
 }
