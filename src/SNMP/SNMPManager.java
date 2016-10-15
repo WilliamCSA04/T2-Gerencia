@@ -19,74 +19,11 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 
 public class SNMPManager {
-
-    private Snmp snmp;
-    private String address;
-    /**
-     * Constructor
-     *
-     * @param add
-     */
-    public SNMPManager(String address) {
-        this.address = address;
-    }
-
-    public String getSysDescr() {
-        try {
-            SNMPManager client = new SNMPManager(address);
-            client.start();
-            String sysDescr = client.getAsString(new OID(".1.3.6.1.2.1.1.1.0"));
-            return sysDescr;
-        } catch (IOException ex) {
-            return ex.getMessage();
-        }
-    }
-
-
-    private void start() throws IOException {
-        TransportMapping transport = new DefaultUdpTransportMapping();
-        snmp = new Snmp(transport);
-        transport.listen();
-    }
-
-    /*
-     * Method which takes a single OID and returns the response from the agent
-     * as a String.
-     */
-    public String getAsString(OID oid) throws IOException {
-        ResponseEvent event = get(new OID[]{oid});
-        return event.getResponse().get(0).getVariable().toString();
-    }
-
-    /*
-     * This method is capable of handling multiple OIDs
-     */
-    public ResponseEvent get(OID oids[]) throws IOException {
-        PDU pdu = new PDU();
-        for (OID oid : oids) {
-            pdu.add(new VariableBinding(oid));
-        }
-        pdu.setType(PDU.GET);
-        ResponseEvent event = snmp.send(pdu, getTarget(), null);
-        if (event != null) {
-            return event;
-        }
-        throw new RuntimeException("GET timed out");
-    }
-
-    /*
-     * This method returns a Target, which contains information about where the
-     * data should be fetched and how.
-     */
-    private Target getTarget() {
-        Address targetAddress = GenericAddress.parse(address);
-        CommunityTarget target = new CommunityTarget();
-        target.setCommunity(new OctetString("public"));
-        target.setAddress(targetAddress);
-        target.setRetries(2);
-        target.setTimeout(1500);
-        target.setVersion(SnmpConstants.version2c);
-        return target;
-    }
+    
+    private final String port ="/161";
+    private final String address = "127.0.0.";
+    private final int addressLowLimit = 1;
+    private final int addressTopLimit = 1;
+    private final String OID = ".1.3.6.1.2.1.1.1.0";
 
 }

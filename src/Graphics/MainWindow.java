@@ -13,15 +13,15 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void addFoundValuesToTable() {
-        ipList.addItem("udp:127.0.0.1/161");
-        String descriptionForThisIp = getDescription();
-        descriptionArea.setText(descriptionForThisIp);
+//        ipList.addItem("udp:127.0.0.1/161");
+//        String descriptionForThisIp = getDescription();
+//        descriptionArea.setText(descriptionForThisIp);
     }
     
-    private String getDescription(){
-        SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
-        return snmp.getSysDescr();
-    }
+//    private String getDescription(){
+//        SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
+//        return snmp.getSysDescr();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
