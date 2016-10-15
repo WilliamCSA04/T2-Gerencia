@@ -1,8 +1,6 @@
 package Graphics;
 
 import SNMP.SNMPManager;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -18,6 +16,7 @@ public class MainWindow extends javax.swing.JFrame {
         SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
         String allDescriptions = snmp.getSysDescr();
         table.setValueAt(allDescriptions, 0, 1);
+        table.setValueAt("127.0.0.1", 0, 0);
         System.out.println(allDescriptions);
     }
 
@@ -32,6 +31,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        testeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +48,8 @@ public class MainWindow extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
+        testeButton.setText("teste");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -55,13 +57,20 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(testeButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(testeButton)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -106,6 +115,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
+    private javax.swing.JButton testeButton;
     // End of variables declaration//GEN-END:variables
 
     
