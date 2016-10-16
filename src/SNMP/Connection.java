@@ -24,7 +24,7 @@ public class Connection {
     private static SNMPManager snmpManager;
 
     private static void start() {
-        SNMPManager snmpManager = new SNMPManager();
+        snmpManager = new SNMPManager();
         TransportMapping tm = getDefaultTransportMapping();
         snmp = new Snmp(getDefaultTransportMapping());
         try {
