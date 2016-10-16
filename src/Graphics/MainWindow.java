@@ -1,6 +1,7 @@
 package Graphics;
 
 import SNMP.ConfigVariables;
+import SNMP.Connection;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -13,15 +14,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void addFoundValuesToTable() {
-//        ipList.addItem("udp:127.0.0.1/161");
-//        String descriptionForThisIp = getDescription();
-//        descriptionArea.setText(descriptionForThisIp);
+        ipList.addItem(ConfigVariables.getIp());
+        descriptionArea.setText(Connection.getSystemDescription());
     }
-    
-//    private String getDescription(){
-//        SNMPManager snmp = new SNMPManager("udp:127.0.0.1/161");
-//        return snmp.getSysDescr();
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
