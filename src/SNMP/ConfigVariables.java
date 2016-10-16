@@ -43,13 +43,13 @@ public class ConfigVariables {
         return ip;
     }
     
-    public static List<String> getAllIps(){
+    public static List<String> getAllIpsWithPort(){
         List<String> ipList = new ArrayList<>();       
-        addIpValuesToList(ipList);
+        addIpValuesToListWithPort(ipList);
         return ipList;
     }
     
-    private static void addIpValuesToList(List<String> ipList){
+    private static void addIpValuesToListWithPort(List<String> ipList){
         for(int actual = addressLowLimit; actual <= addressTopLimit; actual++){
             ipList.add(returnIpWithPort(actual));
         }
