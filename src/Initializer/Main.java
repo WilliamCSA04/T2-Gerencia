@@ -1,6 +1,4 @@
 package Initializer;
-import Windows.MainWindow;
-import SNMP.Connection;
 import Windows.ConfigurationWindow;
 
 public class Main {
@@ -10,5 +8,4 @@ public class Main {
         ConfigurationWindow cw = new ConfigurationWindow();
         cw.setVisible(true);
     }
-    
 }

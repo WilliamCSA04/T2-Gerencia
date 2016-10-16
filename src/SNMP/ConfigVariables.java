@@ -3,8 +3,6 @@ package SNMP;
 import java.util.List;
 import java.util.ArrayList;
 
-
-
 public class ConfigVariables {
     
     private static final String port = "/161";
@@ -74,7 +72,5 @@ public class ConfigVariables {
     private static String returnIpWithPort(int lastIpNumber){
         return partialAddress + lastIpNumber + port;
     }
-    
-    
     
 }
