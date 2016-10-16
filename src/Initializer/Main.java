@@ -1,5 +1,5 @@
 package Initializer;
-import Graphics.MainWindow;
+import Windows.MainWindow;
 import SNMP.Connection;
 
 public class Main {

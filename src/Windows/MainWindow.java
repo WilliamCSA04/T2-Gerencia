@@ -1,4 +1,4 @@
-package Graphics;
+package Windows;
 
 import SNMP.ConfigVariables;
 import SNMP.Connection;
