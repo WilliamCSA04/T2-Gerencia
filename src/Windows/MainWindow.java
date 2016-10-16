@@ -2,6 +2,7 @@ package Windows;
 
 import SNMP.ConfigVariables;
 import SNMP.Connection;
+import java.util.List;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -10,13 +11,23 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
-        addFoundValuesToTable();
+        addAllValuesToComboBox();
     }
 
-    private void addFoundValuesToTable() {
-        ipList.addItem(ConfigVariables.getIp());
-        descriptionArea.setText(Connection.getSystemDescription());
+    private void addAllValuesToComboBox() {
+        List<String> allDescriptions = Connection.getAllSystemDescription();
+        List<String> allIps = ConfigVariables.getAllIpsWithPort();
+        
+        for (String ip : allIps) {
+            ipList.addItem(ip);
+        }
+        for (String description : allDescriptions) {
+            descriptionArea.append(description + "\n");
+        }
+        
+        
     }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,6 +42,7 @@ public class MainWindow extends javax.swing.JFrame {
         ipList = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionArea = new javax.swing.JTextArea();
+        configButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,18 +59,27 @@ public class MainWindow extends javax.swing.JFrame {
         descriptionArea.setRows(5);
         jScrollPane1.setViewportView(descriptionArea);
 
+        configButton.setText("config");
+        configButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                configButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ipList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(testeButton)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(configButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(ipList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(testeButton))))
                 .addContainerGap(175, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -70,7 +91,9 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(testeButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(configButton)
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,6 +102,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void testeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testeButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_testeButtonActionPerformed
+
+    private void configButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configButtonActionPerformed
+        ConfigurationWindow cw = new ConfigurationWindow();
+        cw.setVisible(true);
+    }//GEN-LAST:event_configButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,6 +144,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton configButton;
     private javax.swing.JTextArea descriptionArea;
     private javax.swing.JComboBox<String> ipList;
     private javax.swing.JScrollPane jScrollPane1;
