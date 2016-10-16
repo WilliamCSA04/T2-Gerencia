@@ -159,7 +159,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
             applyConfig(partialIp, machineIp, 0, 255);
         }
         showLogText();
-
+        MainWindow.refreshDataAfterChangeIp();
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

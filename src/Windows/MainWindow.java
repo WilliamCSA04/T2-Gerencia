@@ -27,6 +27,10 @@ public class MainWindow extends javax.swing.JFrame {
         
         
     }
+    
+    public static void refreshDataAfterChangeIp(){
+        
+    }
    
 
     /**
