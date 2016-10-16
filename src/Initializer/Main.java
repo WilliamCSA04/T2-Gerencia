@@ -5,7 +5,10 @@ import SNMP.Connection;
 public class Main {
     
     public static void main(String[] args) {
-        System.out.println(Connection.getSystemDescription());
+        for (String description : Connection.getAllSystemDescription()) {
+            System.out.println(description);
+        }
+        
         MainWindow mainWindow = new MainWindow();
         mainWindow.setVisible(true);
     }

@@ -1,6 +1,8 @@
 package SNMP;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +16,6 @@ import org.snmp4j.smi.Integer32;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.UdpAddress;
-import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
@@ -40,11 +41,11 @@ public class Connection {
         }
     }
 
-    private static CommunityTarget getConfiguredCommunityTarget() {
+    private static CommunityTarget getConfiguredCommunityTarget(String ipWithPort) {
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(ConfigVariables.getCommunity()));
         target.setVersion(SnmpConstants.version2c);
-        target.setAddress(new UdpAddress(ConfigVariables.getIp() + ConfigVariables.getPort()));
+        target.setAddress(new UdpAddress(ipWithPort));
         target.setRetries(2);
         target.setTimeout(1000);
         return target;
@@ -52,9 +53,21 @@ public class Connection {
 
     public static String getSystemDescription() {
         start();
-        CommunityTarget target = getConfiguredCommunityTarget();
+        CommunityTarget target = getConfiguredCommunityTarget(ConfigVariables.getIp() + ConfigVariables.getPort());
         PDU pdu = createConfiguredPDU();
         return executeResponseEvent(pdu, target);
+    }
+    
+    public static List<String> getAllSystemDescription() {
+        start();
+        List<String> ipList = ConfigVariables.getAllIpsWithPort();
+        List<String> descriptions = new ArrayList<>();
+        for (String ipWithPort : ipList) {
+            CommunityTarget target = getConfiguredCommunityTarget(ipWithPort);
+            PDU pdu = createConfiguredPDU();
+            descriptions.add(executeResponseEvent(pdu, target));
+        }   
+        return descriptions;
     }
 
     private static PDU createConfiguredPDU() {
