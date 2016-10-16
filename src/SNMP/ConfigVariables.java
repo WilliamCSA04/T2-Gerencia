@@ -1,5 +1,8 @@
 package SNMP;
 
+import java.util.List;
+import java.util.ArrayList;
+
 
 
 public class ConfigVariables {
@@ -38,6 +41,22 @@ public class ConfigVariables {
 
     public static String getIp() {
         return ip;
+    }
+    
+    public static List<String> getAllIps(){
+        List<String> ipList = new ArrayList<>();       
+        addIpValuesToList(ipList);
+        return ipList;
+    }
+    
+    private static void addIpValuesToList(List<String> ipList){
+        for(int actual = addressLowLimit; actual <= addressTopLimit; actual++){
+            ipList.add(returnIpWithPort(actual));
+        }
+    }
+    
+    private static String returnIpWithPort(int lastIpNumber){
+        return partialAddress + lastIpNumber + port;
     }
     
     
