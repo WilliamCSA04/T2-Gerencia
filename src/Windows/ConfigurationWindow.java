@@ -39,8 +39,9 @@ public class ConfigurationWindow extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         logText = new javax.swing.JTextArea();
+        sendButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         partialIpText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,7 +67,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
 
         jLabel2.setText("Seu ip completo");
 
-        okButton.setText("ok");
+        okButton.setText("Verificar");
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
@@ -84,6 +85,13 @@ public class ConfigurationWindow extends javax.swing.JFrame {
         logText.setRows(5);
         jScrollPane1.setViewportView(logText);
 
+        sendButton.setText("Enviar");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,6 +99,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addComponent(machineIpText)
@@ -101,12 +110,12 @@ public class ConfigurationWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelButton)
-                        .addContainerGap())
+                        .addComponent(cancelButton))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(55, Short.MAX_VALUE))))
+                        .addGap(0, 43, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,7 +139,9 @@ public class ConfigurationWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(cancelButton))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sendButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,12 +170,18 @@ public class ConfigurationWindow extends javax.swing.JFrame {
             applyConfig(partialIp, machineIp, 0, 255);
         }
         showLogText();
-        MainWindow.refreshDataAfterChangeIp();
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
             this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+
+        MainWindow mw = new MainWindow();
+        mw.setVisible(true);       
+        this.dispose();
+    }//GEN-LAST:event_sendButtonActionPerformed
 
     private void applyConfig(String partialIp, String machineIp, int lowLimit, int topLimit) {
         if (machineIp.isEmpty()) {
@@ -232,5 +249,6 @@ public class ConfigurationWindow extends javax.swing.JFrame {
     private javax.swing.JTextField machineIpText;
     private javax.swing.JButton okButton;
     private javax.swing.JTextField partialIpText;
+    private javax.swing.JButton sendButton;
     // End of variables declaration//GEN-END:variables
 }

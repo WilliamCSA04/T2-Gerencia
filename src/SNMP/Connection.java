@@ -46,8 +46,8 @@ public class Connection {
         target.setCommunity(new OctetString(ConfigVariables.getCommunity()));
         target.setVersion(SnmpConstants.version2c);
         target.setAddress(new UdpAddress(ipWithPort));
-        target.setRetries(2);
-        target.setTimeout(1000);
+        target.setRetries(0);
+        target.setTimeout(100);
         return target;
     }
 
@@ -66,6 +66,7 @@ public class Connection {
             CommunityTarget target = getConfiguredCommunityTarget(ipWithPort);
             PDU pdu = createConfiguredPDU();
             descriptions.add(executeResponseEvent(pdu, target));
+            System.out.println("Executando...");
         }   
         return descriptions;
     }
@@ -100,6 +101,7 @@ public class Connection {
                         String message = "";
                         for (VariableBinding variableBinding : vb) {
                             message += variableBinding.toValueString();
+                            
                         }
                         snmp.close();
                         return message;
