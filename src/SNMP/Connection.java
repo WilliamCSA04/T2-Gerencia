@@ -21,10 +21,8 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 public class Connection {
 
     private static Snmp snmp;
-    private static SNMPManager snmpManager;
 
     private static void start() {
-        snmpManager = new SNMPManager();
         TransportMapping tm = getDefaultTransportMapping();
         snmp = new Snmp(tm);
         try {
@@ -44,9 +42,9 @@ public class Connection {
 
     private static CommunityTarget getConfiguredCommunityTarget() {
         CommunityTarget target = new CommunityTarget();
-        target.setCommunity(new OctetString(snmpManager.getCommunity()));
+        target.setCommunity(new OctetString(ConfigVariables.getCommunity()));
         target.setVersion(SnmpConstants.version2c);
-        target.setAddress(new UdpAddress(snmpManager.getIp() + snmpManager.getPort()));
+        target.setAddress(new UdpAddress(ConfigVariables.getIp() + ConfigVariables.getPort()));
         target.setRetries(2);
         target.setTimeout(1000);
         return target;
@@ -74,7 +72,7 @@ public class Connection {
     }
 
     private static OID createOID() {
-        return new OID(snmpManager.getOID());
+        return new OID(ConfigVariables.getOID());
     }
 
     private static String executeResponseEvent(PDU pdu, CommunityTarget target) {

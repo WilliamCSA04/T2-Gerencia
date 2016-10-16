@@ -1,6 +1,6 @@
 package Graphics;
 
-import SNMP.SNMPManager;
+import SNMP.ConfigVariables;
 
 public class MainWindow extends javax.swing.JFrame {
 
