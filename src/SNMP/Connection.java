@@ -1,6 +1,5 @@
 package SNMP;
 
-import static SNMP.Connection.getDefaultTransportMapping;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -15,6 +14,7 @@ import org.snmp4j.smi.Integer32;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.UdpAddress;
+import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
@@ -26,7 +26,7 @@ public class Connection {
     private static void start() {
         snmpManager = new SNMPManager();
         TransportMapping tm = getDefaultTransportMapping();
-        snmp = new Snmp(getDefaultTransportMapping());
+        snmp = new Snmp(tm);
         try {
             tm.listen();
         } catch (IOException ex) {
@@ -34,7 +34,7 @@ public class Connection {
         }
     }
 
-    public static TransportMapping getDefaultTransportMapping() {
+    private static TransportMapping getDefaultTransportMapping() {
         try {
             return new DefaultUdpTransportMapping();
         } catch (IOException ex) {
@@ -42,7 +42,7 @@ public class Connection {
         }
     }
 
-    public static CommunityTarget getConfiguredCommunityTarget() {
+    private static CommunityTarget getConfiguredCommunityTarget() {
         CommunityTarget target = new CommunityTarget();
         target.setCommunity(new OctetString(snmpManager.getCommunity()));
         target.setVersion(SnmpConstants.version2c);
@@ -52,7 +52,7 @@ public class Connection {
         return target;
     }
 
-    public static String get() {
+    public static String getSystemDescription() {
         start();
         CommunityTarget target = getConfiguredCommunityTarget();
         PDU pdu = createConfiguredPDU();
@@ -99,36 +99,6 @@ public class Connection {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "error";
-    }
-
-    public static String getSystemDescription() {
-        start();
-        return getAsString();
-    }
-
-    private static String getAsString() {
-        try {
-            ResponseEvent event = getResponseEvent();
-            if (event != null) {
-                PDU responsePDU = event.getRequest();
-                if (responsePDU != null) {
-                    return responsePDU.get(0).getVariable().toString();
-                }
-
-            }
-
-        } catch (IOException ex) {
-            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "error";
-    }
-
-    private static ResponseEvent getResponseEvent() throws IOException {
-        ResponseEvent event = snmp.send(createConfiguredPDU(), getConfiguredCommunityTarget(), null);
-        if (event != null) {
-            return event;
-        }
-        return null;
     }
 
 }
