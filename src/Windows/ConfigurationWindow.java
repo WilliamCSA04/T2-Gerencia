@@ -158,6 +158,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
         }else{
             applyConfig(partialIp, machineIp, 0, 255);
         }
+        showLogText();
 
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -167,7 +168,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
 
     private void applyConfig(String partialIp, String machineIp, int lowLimit, int topLimit) {
         if (machineIp.isEmpty()) {
-            ConfigVariables.setIp(partialIp);
+            ConfigVariables.setIp(partialIp + lowLimit);
         } else {
             ConfigVariables.setIp(machineIp);
         }
@@ -178,9 +179,11 @@ public class ConfigurationWindow extends javax.swing.JFrame {
     }
     
     private void showLogText(){
+        logText.setText("");
         logText.append("log:");
-        logText.append("ip: " + ConfigVariables.getIp());
-        logText.append("ip: " + ConfigVariables.getIp());
+        logText.append("ip: " + ConfigVariables.getIp() + "\n");
+        logText.append("AddressLowLimit: " + ConfigVariables.getAddressLowLimit() + "\n");
+        logText.append("AddressTopLimit: " + ConfigVariables.getAddressTopLimit() + "\n");
     }
 
     /**
