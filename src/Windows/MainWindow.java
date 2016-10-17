@@ -1,18 +1,18 @@
 package Windows;
 
-import SNMP.Conexao;
+
 import SNMP.ConfigVariables;
 import SNMP.Connection;
 import java.util.List;
 
 public class MainWindow extends javax.swing.JFrame {
 
-    private Conexao conexao;
+    private Connection connection;
     
     public MainWindow() {
         initComponents();
         addAllValuesToComboBox();
-        conexao = new Conexao();
+        connection = new Connection();
     }
 
     private void addAllValuesToComboBox() {
@@ -25,6 +25,10 @@ public class MainWindow extends javax.swing.JFrame {
                 descriptionArea.append(description + "\n");
                 String ip = allIps.get(i);
                 ipList.addItem(ip);
+                System.out.println("Aceitou: " + ip);
+            }else{
+                String ip = allIps.get(i);
+                System.out.println("Recusou: " + ip);
             }
             
             
@@ -145,7 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
         String ip = "";
         String indice = jTextFieldIndice.getText();
         
-        conexao.chamaAgendador("10.32.143.154", ConfigVariables.getCommunity(), metrica, indice, tempo);
+        connection.chamaAgendador("10.32.143.154", metrica, indice, tempo);
     }//GEN-LAST:event_monitorarButtonActionPerformed
 
     private void jComboBoxMetricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMetricaActionPerformed

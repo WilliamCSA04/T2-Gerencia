@@ -1,5 +1,7 @@
 package SNMP;
 
+import Graphics.Graphic;
+import Graphics.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,16 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 public class Connection {
 
     private static Snmp snmp;
+    private ArrayList<Point> pointList = new ArrayList<>();
+    private Graphic chart = new Graphic();
+    private int beforeIn = -1;
+    private int beforeOut = -1;
+
+    private int actualIn = -1;
+    private int actualOut = -1;
+
+    private float beforeY;
+    private float actualY;
 
     private static void start() {
         TransportMapping tm = getDefaultTransportMapping();
@@ -57,7 +69,14 @@ public class Connection {
         PDU pdu = createConfiguredPDU();
         return executeResponseEvent(pdu, target);
     }
-    
+
+    public static String get(String ip, String OID) {
+        start();
+        CommunityTarget target = getConfiguredCommunityTarget(ip + ConfigVariables.getPort());
+        PDU pdu = createConfiguredPDU(OID);
+        return executeResponseEvent(pdu, target);
+    }
+
     public static List<String> getAllSystemDescription() {
         start();
         List<String> ipList = ConfigVariables.getAllIpsWithPort();
@@ -67,7 +86,7 @@ public class Connection {
             PDU pdu = createConfiguredPDU();
             descriptions.add(executeResponseEvent(pdu, target));
             System.out.println("Executando...");
-        }   
+        }
         return descriptions;
     }
 
@@ -80,13 +99,31 @@ public class Connection {
         return pdu;
     }
 
+    private static PDU createConfiguredPDU(String OID) {
+        PDU pdu = new PDU();
+        VariableBinding vb = createVariableBindingWithOID(OID);
+        pdu.add(vb);
+        pdu.setType(PDU.GET);
+        pdu.setRequestID(new Integer32(1));
+        return pdu;
+    }
+
     private static VariableBinding createVariableBindingWithOID() {
         OID oid = createOID();
         return new VariableBinding(oid);
     }
 
+    private static VariableBinding createVariableBindingWithOID(String OID) {
+        OID oid = createOID(OID);
+        return new VariableBinding(oid);
+    }
+
     private static OID createOID() {
         return new OID(ConfigVariables.getOID());
+    }
+
+    private static OID createOID(String OID) {
+        return new OID(OID);
     }
 
     private static String executeResponseEvent(PDU pdu, CommunityTarget target) {
@@ -101,7 +138,7 @@ public class Connection {
                         String message = "";
                         for (VariableBinding variableBinding : vb) {
                             message += variableBinding.toValueString();
-                            
+
                         }
                         snmp.close();
                         return message;
@@ -113,7 +150,42 @@ public class Connection {
         }
         return "error";
     }
-    
-    
+
+    public void updateChart(String titulo, int inX, int inY, int outX, int outY) {
+        if (beforeIn != -1 && beforeOut != -1) {
+            actualIn = inY;
+            actualOut = outY;
+
+            pointList.add(new Point(inX, (actualIn - beforeIn), outX, (actualOut - beforeOut)));
+
+            beforeIn = actualIn;
+            beforeOut = actualOut;
+        } else {
+            beforeIn = inY;
+            beforeOut = outY;
+        }
+
+        chart.criaGrafico("Gráfico", titulo, pointList);
+    }
+
+    public void updateChart(String titulo, int x, float y) {
+        if (beforeY != -1) {
+            actualY = (float) y;
+
+            pointList.add(new Point(x, (actualY - beforeY)));
+
+            beforeY = (float) actualY;
+        } else {
+            beforeY = (float) y;
+        }
+
+        chart.criaGrafico2("Gráfico", titulo, pointList);
+    }
+
+    public void chamaAgendador(String ip, String metrica, String indice, int tempo) {
+        //chamaGet(ip, comunidade, metrica, indice, tempo);
+        Agendador agendador = new Agendador(ip, metrica, indice, tempo);
+        agendador.agendamento();
+    }
 
 }
