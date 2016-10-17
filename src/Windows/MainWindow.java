@@ -44,15 +44,13 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         monitorarButton = new javax.swing.JButton();
-        ipList = new javax.swing.JComboBox<String>();
+        ipList = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextFieldComunidade = new javax.swing.JTextField();
         jTextFieldAtualizacao = new javax.swing.JTextField();
         jComboBoxMetrica = new javax.swing.JComboBox();
         jTextFieldIndice = new javax.swing.JTextField();
@@ -74,8 +72,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel1.setText("IP");
 
-        jLabel2.setText("Comunidade");
-
         jLabel3.setText("Atualização");
 
         jLabel4.setText("Métrica");
@@ -95,31 +91,25 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ipList, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBoxMetrica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldComunidade, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldIndice, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jComboBoxMetrica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldIndice, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(monitorarButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextFieldAtualizacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,9 +123,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldComunidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -153,12 +141,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void monitorarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorarButtonActionPerformed
         int tempo = Integer.parseInt(jTextFieldAtualizacao.getText()) * 1000;
-        String comunidade = jTextFieldComunidade.getText();
         String metrica = jComboBoxMetrica.getSelectedItem().toString();
         String ip = "";
         String indice = jTextFieldIndice.getText();
         
-        conexao.chamaAgendador("127.0.0.1", comunidade, metrica, indice, tempo);
+        conexao.chamaAgendador("10.32.143.154", ConfigVariables.getCommunity(), metrica, indice, tempo);
     }//GEN-LAST:event_monitorarButtonActionPerformed
 
     private void jComboBoxMetricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMetricaActionPerformed
@@ -205,13 +192,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ipList;
     private javax.swing.JComboBox jComboBoxMetrica;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldAtualizacao;
-    private javax.swing.JTextField jTextFieldComunidade;
     private javax.swing.JTextField jTextFieldIndice;
     private javax.swing.JButton monitorarButton;
     // End of variables declaration//GEN-END:variables
