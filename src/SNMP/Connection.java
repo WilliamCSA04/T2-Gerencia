@@ -131,6 +131,7 @@ public class Connection {
             ResponseEvent response = snmp.get(pdu, target);
             if (response != null) {
                 PDU pduResponse = response.getResponse();
+                System.out.println("");
                 if (pduResponse != null) {
                     int errorStatus = pduResponse.getErrorStatus();
                     if (errorStatus == PDU.noError) {
@@ -140,7 +141,6 @@ public class Connection {
                             message += variableBinding.toValueString();
 
                         }
-                        snmp.close();
                         return message;
                     }
                 }
