@@ -51,7 +51,11 @@ public class Alert {
     }
 
     public void setMinimumValue(int minimumValue) {
-        this.minimumValue = minimumValue;
+        boolean isLowerThanMaximumValue = isValidSetMinimumValue(minimumValue);
+        if(isLowerThanMaximumValue){
+            this.minimumValue = minimumValue;
+        }
+        
     }
 
     public int getMaximumValue() {
@@ -59,7 +63,19 @@ public class Alert {
     }
 
     public void setMaximumValue(int maximumValue) {
-        this.maximumValue = maximumValue;
+        boolean isHigherThanMinimumValue = isValidSetMaximumValue(maximumValue);
+        if(isHigherThanMinimumValue){
+            this.maximumValue = maximumValue;
+        }
+        
+    }
+    
+    private boolean isValidSetMaximumValue(int value){
+        return value > minimumValue;
+    }
+    
+    private boolean isValidSetMinimumValue(int value){
+        return value < maximumValue;
     }
 
     public String getMinimumMessage() {
