@@ -3,7 +3,7 @@ package SNMP;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Agendador {
+public class Schedule {
 
     private String ip;
     private String metrica;
@@ -11,7 +11,7 @@ public class Agendador {
     private int tempo;
     private int count;
 
-    public Agendador(String ip, String metrica, String indice, int tempo) {
+    public Schedule(String ip, String metrica, String indice, int tempo) {
         this.ip = ip;
         this.metrica = metrica;
         this.indice = indice;

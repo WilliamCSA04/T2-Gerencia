@@ -184,7 +184,7 @@ public class Connection {
 
     public void chamaAgendador(String ip, String metrica, String indice, int tempo) {
         //chamaGet(ip, comunidade, metrica, indice, tempo);
-        Agendador agendador = new Agendador(ip, metrica, indice, tempo);
+        Schedule agendador = new Schedule(ip, metrica, indice, tempo);
         agendador.agendamento();
     }
 
