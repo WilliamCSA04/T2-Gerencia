@@ -6,17 +6,17 @@ import java.util.TimerTask;
 public class Schedule {
 
     private String ip;
-    private String metrica;
-    private String indice;
-    private int tempo;
+    private String metric;
+    private String index;
+    private int time;
     private int count;
 
-    public Schedule(String ip, String metrica, String indice, int tempo) {
+    public Schedule(String ip, String metric, String index, int time) {
         this.ip = ip;
-        this.metrica = metrica;
-        this.indice = indice;
-        this.tempo = tempo;
-        count = tempo;
+        this.metric = metric;
+        this.index = index;
+        this.time = time;
+        count = time;
     }
 
     public void agendamento() {
@@ -24,8 +24,8 @@ public class Schedule {
         t.schedule(new TimerTask() {
             private Connection connection = new Connection();
 
-            int resultadoIn = 0;
-            int resultadoOut = 0;
+            int resultIn = 0;
+            int resultOut = 0;
 
             @Override
             public void run() {
@@ -33,33 +33,33 @@ public class Schedule {
             }
 
             private void executaGet() {
-                if (metrica.equals("Taxa Kbytes")) {
+                if (metric.equals("Taxa Kbytes")) {
                     //Taxa de Kbytes enviados e recebidos por segundo - indice 4 (transofrmar em selecionavel)
-                    resultadoIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.2.2.1.10." + indice));
-                    resultadoOut = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.2.2.1.16." + indice));
-                    connection.updateChart(metrica, ((tempo - count) / 1000), resultadoIn, ((tempo - count) / 1000), resultadoOut);
+                    resultIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.2.2.1.10." + index));
+                    resultOut = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.2.2.1.16." + index));
+                    connection.updateChart(metric, ((time - count) / 1000), resultIn, ((time - count) / 1000), resultOut);
 
-                } else if (metrica.equals("ICMP Echo Requests")) {
+                } else if (metric.equals("ICMP Echo Requests")) {
                     //ipacotes ICMP Echo Requests recebidos por segundo - nao testado
-                    resultadoIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.5.8." + indice));
-                    connection.updateChart(metrica, ((tempo - count) / 1000), resultadoIn * 100);
+                    resultIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.5.8." + index));
+                    connection.updateChart(metric, ((time - count) / 1000), resultIn * 100);
 
-                } else if (metrica.equals("Segmentos TCP")) {
+                } else if (metric.equals("Segmentos TCP")) {
                     //taxa de segmentos TCP enviados e recebidos por segundo
-                    resultadoIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.6.10." + indice));
-                    resultadoOut = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.6.11." + indice));
-                    connection.updateChart(metrica, ((tempo - count) / 1000), resultadoIn, ((tempo - count) / 1000), resultadoOut);
+                    resultIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.6.10." + index));
+                    resultOut = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.6.11." + index));
+                    connection.updateChart(metric, ((time - count) / 1000), resultIn, ((time - count) / 1000), resultOut);
 
-                } else if (metrica.equals("Pacotes SNMP")) {
+                } else if (metric.equals("Pacotes SNMP")) {
                     //quantidade de pacotes SNMP recebidos por segundo
-                    resultadoIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.11.1." + indice));
-                    resultadoOut = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.11.2." + indice));
-                    connection.updateChart(metrica, ((tempo - count) / 1000), resultadoIn, ((tempo - count) / 1000), resultadoOut);
+                    resultIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.11.1." + index));
+                    resultOut = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.11.2." + index));
+                    connection.updateChart(metric, ((time - count) / 1000), resultIn, ((time - count) / 1000), resultOut);
                 }
 
-                tempo += count;
+                time += count;
             }
-        }, 0, tempo);
+        }, 0, time);
     }
 
 }
