@@ -1,15 +1,18 @@
 package Windows;
 
-
 import SNMP.Alert;
 import SNMP.ConfigVariables;
 import SNMP.Connection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindow extends javax.swing.JFrame {
 
     private Connection connection;
-    
+    private static List<String> allDescriptions = new ArrayList<>();
+
     public MainWindow() {
         initComponents();
         addAllValuesToComboBox();
@@ -17,27 +20,25 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void addAllValuesToComboBox() {
-        List<String> allDescriptions = Connection.getAllSystemDescription();
+        allDescriptions = Connection.getAllSystemDescription();
         List<String> allIps = ConfigVariables.getAllIpsWithPort();
         int listSize = allIps.size();
-        for(int i=0; i<listSize; i++){
+        for (int i = 0; i < listSize; i++) {
             String description = allDescriptions.get(i);
-            if(!description.equals("error")){
-                descriptionArea.append(description + "\n");
+            if (!description.equals("error")) {
                 String ip = allIps.get(i);
                 ipList.addItem(ip);
                 System.out.println("Aceitou: " + ip);
-            }else{
+            } else {
                 String ip = allIps.get(i);
+                allDescriptions.remove(i);
+                i--;
                 System.out.println("Recusou: " + ip);
             }
-            
-            
+
         }
-        
-        
+
     }
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,6 +75,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         ipList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
+        ipList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ipListActionPerformed(evt);
+            }
+        });
 
         descriptionArea.setColumns(20);
         descriptionArea.setRows(5);
@@ -136,12 +142,12 @@ public class MainWindow extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldIndice))
-                            .addComponent(alertMinValue, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                                .addComponent(jTextFieldIndice, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(alertMinValue))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(alertMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(alertMaxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,8 +190,8 @@ public class MainWindow extends javax.swing.JFrame {
         String max = alertMaxValue.getText();
         int minValue = Integer.parseInt(min);
         int maxValue = Integer.parseInt(max);
-        Alert alert = new Alert(minValue, maxValue);
-        connection.chamaAgendador("10.32.143.154", metric, index, time);
+        Alert alert = Alert.getInstance(minValue, maxValue);
+        connection.chamaAgendador(ipList.getItemAt(ipList.getSelectedIndex()), metric, index, time);
     }//GEN-LAST:event_monitorarButtonActionPerformed
 
     private void jComboBoxMetricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMetricaActionPerformed
@@ -195,6 +201,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void alertMinValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alertMinValueActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_alertMinValueActionPerformed
+
+    private void ipListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipListActionPerformed
+        descriptionArea.setText(allDescriptions.get(ipList.getSelectedIndex()) + "\n");
+    }//GEN-LAST:event_ipListActionPerformed
 
     /**
      * @param args the command line arguments
