@@ -17,8 +17,14 @@ public class Alert {
     private final String maximumMessage = "Limite superior ultrapassado";
     private int minimumValue;
     private int maximumValue;
+    private static Alert alert = null;
 
-    public Alert(int minimumValue, int maximumValue) {
+    public static Alert getInstance(int minimumValue, int maximumValue){
+        alert = alert == null ? new Alert(minimumValue, maximumValue) : alert;
+        return alert;
+    }
+    
+    private Alert(int minimumValue, int maximumValue) {
         this.minimumValue = minimumValue;
         this.maximumValue = maximumValue;
     }
