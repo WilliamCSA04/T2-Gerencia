@@ -1,6 +1,7 @@
 package Windows;
 
 
+import SNMP.Alert;
 import SNMP.ConfigVariables;
 import SNMP.Connection;
 import java.util.List;
@@ -175,12 +176,16 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void monitorarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monitorarButtonActionPerformed
-        int tempo = Integer.parseInt(jTextFieldAtualizacao.getText()) * 1000;
-        String metrica = jComboBoxMetrica.getSelectedItem().toString();
+        int time = Integer.parseInt(jTextFieldAtualizacao.getText()) * 1000;
+        String metric = jComboBoxMetrica.getSelectedItem().toString();
         String ip = "";
-        String indice = jTextFieldIndice.getText();
-        
-        connection.chamaAgendador("10.32.143.154", metrica, indice, tempo);
+        String index = jTextFieldIndice.getText();
+        String min = alertMinValue.getText();
+        String max = alertMaxValue.getText();
+        int minValue = Integer.parseInt(min);
+        int maxValue = Integer.parseInt(max);
+        Alert alert = new Alert(minValue, maxValue);
+        connection.chamaAgendador("10.32.143.154", metric, index, time);
     }//GEN-LAST:event_monitorarButtonActionPerformed
 
     private void jComboBoxMetricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMetricaActionPerformed
