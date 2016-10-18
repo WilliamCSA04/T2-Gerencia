@@ -23,16 +23,16 @@ public class MainWindow extends javax.swing.JFrame {
         allDescriptions = Connection.getAllSystemDescription();
         List<String> allIps = ConfigVariables.getAllIpsWithPort();
         int listSize = allIps.size();
-        for (int i = 0; i < listSize; i++) {
-            String description = allDescriptions.get(i);
+        for (int i = 0, j = 0; i < listSize; i++, j++) {
+            String description = allDescriptions.get(j);
             if (!description.equals("error")) {
                 String ip = allIps.get(i);
                 ipList.addItem(ip);
                 System.out.println("Aceitou: " + ip);
             } else {
                 String ip = allIps.get(i);
-                allDescriptions.remove(i);
-                i--;
+                allDescriptions.remove(j);
+                j--;
                 System.out.println("Recusou: " + ip);
             }
 
