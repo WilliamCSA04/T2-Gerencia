@@ -19,14 +19,12 @@ public class Alert {
     private int maximumValue;
     private static Alert alert = null;
 
-    public static Alert getInstance(int minimumValue, int maximumValue){
-        alert = alert == null ? new Alert(minimumValue, maximumValue) : alert;
+    public static Alert getInstance(){
+        alert = alert == null ? new Alert() : alert;
         return alert;
     }
     
-    private Alert(int minimumValue, int maximumValue) {
-        this.minimumValue = minimumValue;
-        this.maximumValue = maximumValue;
+    private Alert() {
     }
 
     public void checkForAlert(int actualValue) {
@@ -51,10 +49,10 @@ public class Alert {
     }
 
     public void setMinimumValue(int minimumValue) {
-        boolean isLowerThanMaximumValue = isValidSetMinimumValue(minimumValue);
-        if(isLowerThanMaximumValue){
+//        boolean isLowerThanMaximumValue = isValidSetMinimumValue(minimumValue);
+//        if(isLowerThanMaximumValue){
             this.minimumValue = minimumValue;
-        }
+//        }
         
     }
 
@@ -63,10 +61,10 @@ public class Alert {
     }
 
     public void setMaximumValue(int maximumValue) {
-        boolean isHigherThanMinimumValue = isValidSetMaximumValue(maximumValue);
-        if(isHigherThanMinimumValue){
+//        boolean isHigherThanMinimumValue = isValidSetMaximumValue(maximumValue);
+//        if(isHigherThanMinimumValue){
             this.maximumValue = maximumValue;
-        }
+//        }
         
     }
     

@@ -19,7 +19,7 @@ public class Schedule {
         count = time;
     }
 
-    public void agendamento() {
+    public void scheduler() {
         final Timer t = new Timer();
         t.schedule(new TimerTask() {
             private Connection connection = new Connection();
@@ -29,10 +29,10 @@ public class Schedule {
 
             @Override
             public void run() {
-                executaGet();
+                searchOnMib();
             }
 
-            private void executaGet() {
+            private void searchOnMib() {
                 if (metric.equals("Taxa Kbytes")) {
                     //Taxa de Kbytes enviados e recebidos por segundo - indice 4 (transofrmar em selecionavel)
                     resultIn = Integer.parseInt(Connection.get(ip, ".1.3.6.1.2.1.2.2.1.10." + index));

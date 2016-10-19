@@ -25,7 +25,7 @@ public class Connection {
 
     private static Snmp snmp;
     private ArrayList<Point> pointList = new ArrayList<>();
-    private Graphic chart = new Graphic();
+    private static final Graphic chart = new Graphic();
     private int beforeIn = -1;
     private int beforeOut = -1;
 
@@ -72,9 +72,19 @@ public class Connection {
 
     public static String get(String ip, String OID) {
         start();
-        CommunityTarget target = getConfiguredCommunityTarget(ip + ConfigVariables.getPort());
+        CommunityTarget target = getConfiguredCommunityTarget(ip + ConfigVariables.getPort());      
         PDU pdu = createConfiguredPDU(OID);
-        return executeResponseEvent(pdu, target);
+        String s = executeResponseEvent(pdu, target);
+        while(s.equals("error")){
+            s = executeResponseEvent(pdu, target);
+            System.out.println("não conseguiu conectar");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return s;
     }
 
     public static List<String> getAllSystemDescription() {
@@ -155,7 +165,7 @@ public class Connection {
         if (beforeIn != -1 && beforeOut != -1) {
             actualIn = inY;
             actualOut = outY;
-
+            Alert.getInstance().checkForAlert((int) (actualIn - beforeIn));
             pointList.add(new Point(inX, (actualIn - beforeIn), outX, (actualOut - beforeOut)));
 
             beforeIn = actualIn;
@@ -170,8 +180,8 @@ public class Connection {
 
     public void updateChart(String titulo, int x, float y) {
         if (beforeY != -1) {
-            actualY = (float) y;
-
+            Alert.getInstance().checkForAlert((int) (actualY - beforeY));
+            actualY = (float) y;          
             pointList.add(new Point(x, (actualY - beforeY)));
 
             beforeY = (float) actualY;
@@ -182,10 +192,10 @@ public class Connection {
         chart.criaGrafico2("Gráfico", titulo, pointList);
     }
 
-    public void chamaAgendador(String ip, String metrica, String indice, int tempo) {
+    public void callScheduler(String ip, String metrica, String indice, int tempo) {
         //chamaGet(ip, comunidade, metrica, indice, tempo);
-        Schedule agendador = new Schedule(ip, metrica, indice, tempo);
-        agendador.agendamento();
+        Schedule schedule = new Schedule(ip, metrica, indice, tempo);
+        schedule.scheduler();
     }
 
 }

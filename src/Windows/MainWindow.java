@@ -190,8 +190,10 @@ public class MainWindow extends javax.swing.JFrame {
         String max = alertMaxValue.getText();
         int minValue = Integer.parseInt(min);
         int maxValue = Integer.parseInt(max);
-        Alert alert = Alert.getInstance(minValue, maxValue);
-        connection.chamaAgendador(ipList.getItemAt(ipList.getSelectedIndex()), metric, index, time);
+        Alert alert = Alert.getInstance();
+        alert.setMinimumValue(minValue);
+        alert.setMaximumValue(maxValue);
+        connection.callScheduler(ipList.getItemAt(ipList.getSelectedIndex()), metric, index, time);
     }//GEN-LAST:event_monitorarButtonActionPerformed
 
     private void jComboBoxMetricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMetricaActionPerformed

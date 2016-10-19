@@ -1,8 +1,11 @@
 package Graphics;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
@@ -47,7 +50,7 @@ public class Graphic {
         if (frame == null) {
             frame = new JFrame(titulo);
             frame.setTitle(tituloGrafico);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout(0, 5));
             frame.add(chartPanel, BorderLayout.CENTER);
         } else {
@@ -101,9 +104,10 @@ public class Graphic {
         if (frame == null) {
             frame = new JFrame(titulo);
             frame.setTitle(tituloGrafico);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout(0, 5));
             frame.add(chartPanel, BorderLayout.CENTER);
+            
         } else {
             frame.add(chartPanel, BorderLayout.CENTER);
         }
@@ -112,6 +116,8 @@ public class Graphic {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    
+   
 
     private XYDataset createDataset2(ArrayList<Point> lista) {
         final XYSeries in = new XYSeries("Utilização");
